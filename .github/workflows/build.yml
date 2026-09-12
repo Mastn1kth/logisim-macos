@@ -80,10 +80,18 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/build-modern-logisim.py --arch "${{ matrix.architecture }}"
-      - name: Extract and launch Logisim 5.0.0
+      - name: Sign, repack, and launch Logisim 5.0.0
         run: |
           mkdir dist/modern-smoke-test
           ditto -x -k "dist/${{ matrix.artifact }}.zip" dist/modern-smoke-test
+          codesign --force --deep --sign - dist/modern-smoke-test/Logisim.app
+          codesign --verify --deep --strict --verbose=2 dist/modern-smoke-test/Logisim.app
+          rm "dist/${{ matrix.artifact }}.zip"
+          ditto -c -k --sequesterRsrc --keepParent \
+            dist/modern-smoke-test/Logisim.app "dist/${{ matrix.artifact }}.zip"
+          rm -rf dist/modern-smoke-test/Logisim.app
+          ditto -x -k "dist/${{ matrix.artifact }}.zip" dist/modern-smoke-test
+          codesign --verify --deep --strict --verbose=2 dist/modern-smoke-test/Logisim.app
           version_output=$(dist/modern-smoke-test/Logisim.app/Contents/MacOS/Logisim -version 2>&1)
           echo "$version_output"
           grep -q "5.0.0" <<< "$version_output"
