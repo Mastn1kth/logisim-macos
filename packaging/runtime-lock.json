@@ -1,0 +1,21 @@
+{
+  "license": "GPL-2.0-only WITH Classpath-exception-2.0",
+  "runtimes": {
+    "x64": {
+      "java_version": "8u504-b01",
+      "vendor": "Azul Zulu",
+      "macos_minimum": "11.0.0",
+      "size": 40786300,
+      "sha256": "87c82660534472cf7cecb33cb30ec420fd8f863b12c1d5a2cef9970ed990d64f",
+      "url": "https://cdn.azul.com/zulu/bin/zulu8.96.0.205-ca-jre8.0.504-macosx_x64.tar.gz"
+    },
+    "arm64": {
+      "java_version": "17.0.20.1+1",
+      "vendor": "Eclipse Temurin",
+      "macos_minimum": "11.0.0",
+      "size": 42722113,
+      "sha256": "190480874ccceb358cbc840393207f77ac3e63a4c5f8129d0e23e9518b96ad05",
+      "url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jre_aarch64_mac_hotspot_17.0.20.1_1.tar.gz"
+    }
+  }
+}

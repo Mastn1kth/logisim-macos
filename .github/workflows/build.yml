@@ -1,0 +1,117 @@
+name: Build macOS packages
+
+on:
+  pull_request:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/verify.py
+
+  system-java:
+    needs: verify
+    runs-on: macos-15-intel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - run: ./scripts/build-system-java-app.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Logisim-2.7.1-system-java
+          path: |
+            dist/Logisim-2.7.1-system-java.zip
+            dist/Logisim-2.7.1-system-java.dmg
+
+  embedded-runtime:
+    needs: verify
+    strategy:
+      matrix:
+        include:
+          - runner: macos-15-intel
+            architecture: x64
+          - runner: macos-15
+            architecture: arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/build-embedded-runtime.py --arch "${{ matrix.architecture }}"
+      - name: Extract and launch the packaged application
+        run: |
+          mkdir dist/smoke-test
+          ditto -x -k "dist/Logisim-2.7.1-bundled-jre-${{ matrix.architecture }}.zip" dist/smoke-test
+          test "$(dist/smoke-test/Logisim.app/Contents/MacOS/Logisim -version)" = "2.7.1"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Logisim-2.7.1-bundled-jre-${{ matrix.architecture }}
+          path: dist/Logisim-2.7.1-bundled-jre-${{ matrix.architecture }}.zip
+
+  modern-logisim:
+    strategy:
+      matrix:
+        include:
+          - runner: macos-15-intel
+            architecture: x64
+            artifact: Logisim-5.0.0-macOS-Intel
+          - runner: macos-15
+            architecture: arm64
+            artifact: Logisim-5.0.0-macOS-Apple-Silicon
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/build-modern-logisim.py --arch "${{ matrix.architecture }}"
+      - name: Extract and launch Logisim 5.0.0
+        run: |
+          mkdir dist/modern-smoke-test
+          ditto -x -k "dist/${{ matrix.artifact }}.zip" dist/modern-smoke-test
+          version_output=$(dist/modern-smoke-test/Logisim.app/Contents/MacOS/Logisim -version 2>&1)
+          echo "$version_output"
+          grep -q "5.0.0" <<< "$version_output"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: dist/${{ matrix.artifact }}.zip
+
+  standalone:
+    needs: verify
+    strategy:
+      matrix:
+        include:
+          - runner: macos-15-intel
+            artifact: Logisim-2.7.1-macos-x64
+          - runner: macos-15
+            artifact: Logisim-2.7.1-macos-arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - run: ./scripts/build-bundled-app.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            dist/${{ matrix.artifact }}.zip
+            dist/${{ matrix.artifact }}.dmg

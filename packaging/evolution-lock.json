@@ -1,0 +1,51 @@
+{
+  "product": {
+    "name": "Logisim",
+    "upstream_name": "Logisim-evolution",
+    "version": "5.0.0",
+    "release_url": "https://github.com/logisim-evolution/logisim-evolution/releases/tag/v5.0.0"
+  },
+  "jar": {
+    "url": "https://github.com/logisim-evolution/logisim-evolution/releases/download/v5.0.0/logisim-evolution-5.0.0-all.jar",
+    "size": 54448596,
+    "sha256": "6b368e894742c04cc83aa9830f869bcab0190ede4df43ad6fecdb89b3a23a41c"
+  },
+  "assets": {
+    "app_icon": {
+      "url": "https://raw.githubusercontent.com/logisim-evolution/logisim-evolution/v5.0.0/support/jpackage/macos/Logisim-evolution.icns",
+      "size": 1678854,
+      "sha256": "b4be5917177a17a662c57126e8a85acd25e23d77e40fe867fbe43fb2f69d8441"
+    },
+    "document_icon": {
+      "url": "https://raw.githubusercontent.com/logisim-evolution/logisim-evolution/v5.0.0/support/jpackage/macos/Logisim-evolution-circ.icns",
+      "size": 90806,
+      "sha256": "79d476c644a8ea60e2472c2c19fa57b22c88b1d779ebbd706ceefbe87c90801c"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/logisim-evolution/logisim-evolution/v5.0.0/LICENSE.md",
+      "size": 32089,
+      "sha256": "f8d4768b381f1e342911e83df8fdad2b30c83a1594f8e4fddb440dfe19311614"
+    }
+  },
+  "runtime_license": "GPL-2.0-only WITH Classpath-exception-2.0",
+  "runtimes": {
+    "x64": {
+      "display_name": "Intel",
+      "java_version": "21.0.12+101.0.LTS",
+      "macos_minimum": "11.0.0",
+      "vendor": "Eclipse Temurin",
+      "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jre_x64_mac_hotspot_21.0.12.1_1.tar.gz",
+      "size": 42131876,
+      "sha256": "6717ec641fd9ce0bb209ca083ee23b42202ac68cb6fcc5753496e0e4a0f41989"
+    },
+    "arm64": {
+      "display_name": "Apple-Silicon",
+      "java_version": "21.0.12+101.0.LTS",
+      "macos_minimum": "11.0.0",
+      "vendor": "Eclipse Temurin",
+      "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jre_aarch64_mac_hotspot_21.0.12.1_1.tar.gz",
+      "size": 48144965,
+      "sha256": "dec50fc6f9fcd4fe3ae8cabf5a5fa68f6afc48841f7698e468e9aa5d54beed84"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+* text=auto
+.gitattributes text eol=lf
+*.sh text eol=lf
+Logisim.app/Contents/MacOS/Logisim text eol=lf
+*.plist text eol=lf
+*.yml text eol=lf
+*.py text eol=lf
+*.properties text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.jar binary
+*.icns binary

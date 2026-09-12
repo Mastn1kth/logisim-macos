@@ -1,0 +1,40 @@
+#!/bin/sh
+
+APP_ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
+JAR_PATH="$APP_ROOT/Contents/Resources/Java/logisim.jar"
+ICON_PATH="$APP_ROOT/Contents/Resources/LogisimApp.icns"
+JAVA_CMD=
+BUNDLED_JAVA="$APP_ROOT/Contents/runtime/Contents/Home/bin/java"
+
+if [ -x "$BUNDLED_JAVA" ]; then
+    JAVA_CMD="$BUNDLED_JAVA"
+elif [ -n "${JAVA_HOME:-}" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+    JAVA_CMD="$JAVA_HOME/bin/java"
+elif [ -x /usr/libexec/java_home ]; then
+    DETECTED_JAVA_HOME=$(/usr/libexec/java_home -v '1.6+' 2>/dev/null || true)
+    if [ -n "$DETECTED_JAVA_HOME" ] && [ -x "$DETECTED_JAVA_HOME/bin/java" ]; then
+        JAVA_CMD="$DETECTED_JAVA_HOME/bin/java"
+    fi
+fi
+
+if [ -z "$JAVA_CMD" ]; then
+    PATH_JAVA=$(command -v java 2>/dev/null || true)
+    if [ -n "$PATH_JAVA" ] && [ "$PATH_JAVA" != "/usr/bin/java" ]; then
+        JAVA_CMD="$PATH_JAVA"
+    fi
+fi
+
+if [ -z "$JAVA_CMD" ]; then
+    CHOICE=$(osascript -e 'button returned of (display dialog "Logisim requires Java. Install Java 8 or newer, then open Logisim again." with title "Java is not installed" buttons {"Close", "Open Java download page"} default button "Open Java download page")' 2>/dev/null || true)
+    if [ "$CHOICE" = "Open Java download page" ]; then
+        open "https://adoptium.net/temurin/releases/?version=17"
+    fi
+    exit 1
+fi
+
+exec "$JAVA_CMD" \
+    -Dapple.laf.useScreenMenuBar=true \
+    -Dcom.apple.mrj.application.apple.menu.about.name=Logisim \
+    -Xdock:name=Logisim \
+    "-Xdock:icon=$ICON_PATH" \
+    -jar "$JAR_PATH" "$@"
