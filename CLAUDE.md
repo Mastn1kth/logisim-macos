@@ -8,3 +8,5 @@
   command and use the highest OS requirement before publishing.
 - A release is not fully verified until its extracted `.app` is launched on a
   matching Intel or Apple-Silicon macOS runner.
+- For `lipo` validation, pass the input file before `-verify_arch`, for example
+  `lipo path/to/executable -verify_arch arm64`.

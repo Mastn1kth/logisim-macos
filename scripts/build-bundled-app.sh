@@ -60,7 +60,7 @@ codesign --force --deep --sign - "$APP_DIR"
 
 plutil -lint "$PLIST_PATH"
 jar tf "$APP_DIR/Contents/app/logisim.jar" >/dev/null
-lipo -verify_arch "$(uname -m)" "$APP_DIR/Contents/MacOS/Logisim"
+lipo "$APP_DIR/Contents/MacOS/Logisim" -verify_arch "$(uname -m)"
 codesign --verify --deep --strict "$APP_DIR"
 VERSION_OUTPUT=$("$APP_DIR/Contents/MacOS/Logisim" -version)
 if [ "$VERSION_OUTPUT" != "2.7.1" ]; then
