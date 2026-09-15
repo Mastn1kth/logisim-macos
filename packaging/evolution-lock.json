@@ -27,6 +27,32 @@
       "sha256": "f8d4768b381f1e342911e83df8fdad2b30c83a1594f8e4fddb440dfe19311614"
     }
   },
+  "windows_packages": {
+    "x64_installer": {
+      "filename": "logisim-evolution-5.0.0-amd64.msi",
+      "url": "https://github.com/logisim-evolution/logisim-evolution/releases/download/v5.0.0/logisim-evolution-5.0.0-amd64.msi",
+      "size": 79131012,
+      "sha256": "a6eb97f814bb4ca0f083efe3e44081af94fe528b5c480bcc8380b4e741bb9b65"
+    },
+    "x64_portable": {
+      "filename": "logisim-evolution-5.0.0-windows-amd64.zip",
+      "url": "https://github.com/logisim-evolution/logisim-evolution/releases/download/v5.0.0/logisim-evolution-5.0.0-windows-amd64.zip",
+      "size": 77440974,
+      "sha256": "59f11c42d4ae45c8656ab280403cf215a4a8d391f22468dc9a57deccb7e83427"
+    },
+    "arm64_installer": {
+      "filename": "logisim-evolution-5.0.0-aarch64.msi",
+      "url": "https://github.com/logisim-evolution/logisim-evolution/releases/download/v5.0.0/logisim-evolution-5.0.0-aarch64.msi",
+      "size": 77194873,
+      "sha256": "5a2a57d58fa60328dd9dc8a69085ba88060f8cf7347a9deca41c3ef3b42a6c8a"
+    },
+    "arm64_portable": {
+      "filename": "logisim-evolution-5.0.0-windows-aarch64.zip",
+      "url": "https://github.com/logisim-evolution/logisim-evolution/releases/download/v5.0.0/logisim-evolution-5.0.0-windows-aarch64.zip",
+      "size": 75421328,
+      "sha256": "38c23d3187893aa2791ca3675bc7feacb209cc87d976f9c4c30a10c3692a88aa"
+    }
+  },
   "runtime_license": "GPL-2.0-only WITH Classpath-exception-2.0",
   "runtimes": {
     "x64": {

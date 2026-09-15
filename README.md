@@ -1,109 +1,117 @@
-# Logisim 2.7.1 for macOS
+# Logisim for macOS and Windows
 
-This repository packages the original Logisim 2.7.1 application for a wide range
-of Macs. The Logisim Java application itself is unchanged.
+**English | [Русский](README.ru.md)**
 
-## Current Logisim for lab work
+[![Build status](https://github.com/Mastn1kth/logisim-macos/actions/workflows/build.yml/badge.svg)](https://github.com/Mastn1kth/logisim-macos/actions/workflows/build.yml)
+[![Latest release](https://img.shields.io/github/v/release/Mastn1kth/logisim-macos?display_name=tag)](https://github.com/Mastn1kth/logisim-macos/releases/latest)
+[![GPL-3.0 license](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](https://github.com/logisim-evolution/logisim-evolution/blob/v5.0.0/LICENSE.md)
 
-The repository can also package the current Logisim-evolution 5.0.0 application
-under the shorter macOS display name `Logisim`. These packages include a Java 21
-runtime and retain the upstream Russian localization and language selector:
+I put this repository together for classes and digital-logic lab work. The goal
+is simple: download Logisim and start working without installing Java or sorting
+through platform-specific runtime requirements.
 
-| Package | Mac | macOS | Separate Java install |
-| --- | --- | --- | --- |
-| `Logisim-5.0.0-macOS-Intel.zip` | Intel | 11 or newer | No |
-| `Logisim-5.0.0-macOS-Apple-Silicon.zip` | M1 or newer | 11 or newer | No |
+The application is based on the official **Logisim-evolution 5.0.0** release.
+The macOS app uses the shorter display name **Logisim**, and Russian localization
+is included. I do not claim the simulator as my own work: this repository adds
+packaging, repeatable verification, and convenient downloads.
 
-Build both reproducible ZIP archives from pinned, checksummed upstream files:
+## Download
+
+Ready-to-use packages are available on the
+**[Releases page](https://github.com/Mastn1kth/logisim-macos/releases/latest)**.
+
+| Computer | Download | Separate Java install |
+| --- | --- | --- |
+| Mac with M1, M2, M3, M4, or M5 | `Logisim-5.0.0-macOS-Apple-Silicon.zip` | No |
+| Older Intel Mac | `Logisim-5.0.0-macOS-Intel.zip` | No |
+| Typical Intel/AMD Windows PC | `logisim-evolution-5.0.0-amd64.msi` | No |
+| Portable Intel/AMD Windows build | `logisim-evolution-5.0.0-windows-amd64.zip` | No |
+| Windows on ARM | `logisim-evolution-5.0.0-aarch64.msi` | No |
+| Portable Windows on ARM build | `logisim-evolution-5.0.0-windows-aarch64.zip` | No |
+
+Most Windows users want **`amd64.msi`**. Despite the name, AMD64 is the regular
+64-bit architecture used by both Intel and AMD processors.
+
+## What is included
+
+- Logisim-evolution 5.0.0;
+- a bundled Java runtime, so Java does not need to be installed separately;
+- the Russian interface and built-in language selector;
+- gates, memories, registers, TTL devices, and timing diagrams;
+- FPGA and VHDL tools plus the extended Evolution component libraries;
+- support for the `.circ` files commonly used in digital-logic courses.
+
+The language selector is available under **Logisim → Preferences →
+International → Language**. Opening Preferences selects the localization tab by
+default.
+
+## Installing on macOS
+
+1. Check the processor under Apple menu → **About This Mac**.
+2. Download the Apple Silicon or Intel ZIP.
+3. Extract it and move `Logisim.app` to **Applications**.
+4. On first launch, Control-click the app, choose **Open**, and confirm.
+
+The downloadable apps are ad-hoc signed and verified with `codesign`, but they
+are not notarized with a paid Apple Developer certificate. If macOS still blocks
+the first launch, use **System Settings → Privacy & Security → Open Anyway**.
+
+## Installing on Windows
+
+For a regular installation, download and run `amd64.msi`. If software cannot be
+installed on a lab computer, use the portable Windows ZIP, extract it to its own
+folder, and run Logisim-evolution from there.
+
+The Windows binaries are not modified. They are the official upstream
+Logisim-evolution packages, verified against the SHA-256 digests published with
+the release.
+
+## Compatibility with coursework
+
+Logisim-evolution opens many projects created by the original Logisim 2.7.1,
+but upstream does not guarantee perfect backward compatibility. Keep the
+original lab file untouched and save an Evolution copy under a new name. Avoid
+Evolution-only components if the instructor will open the result in 2.7.1.
+
+Build scripts for the original Logisim 2.7.1 remain available in this repository
+for courses that explicitly require the legacy version.
+
+## How the packages are verified
+
+GitHub Actions builds and launches the app on real Intel and Apple Silicon macOS
+runners. The workflow also checks:
+
+- the extracted application and reported Logisim version;
+- ad-hoc code signatures;
+- ZIP and JAR integrity;
+- executable permissions;
+- the architecture and minimum macOS version of every bundled Mach-O file;
+- pinned sizes and SHA-256 checksums for downloaded runtimes and resources.
+
+The pinned sources are recorded in `packaging/evolution-lock.json`. Rebuild the
+macOS archives with:
 
 ```sh
 python scripts/build-modern-logisim.py --arch all
 ```
 
-Only the application name and packaging are customized. The simulator remains
-Logisim-evolution 5.0.0 internally, and its GPL license and source provenance are
-included in each archive.
-
-## Which download should I use?
-
-| Package | Mac | macOS | Separate Java install |
-| --- | --- | --- | --- |
-| `Logisim-2.7.1-system-java` | Intel or Apple Silicon | 10.8 or newer | Yes |
-| `Logisim-2.7.1-bundled-jre-x64` | Intel | 11 or newer | No |
-| `Logisim-2.7.1-bundled-jre-arm64` | Apple Silicon (M1 or newer) | 11 or newer | No |
-| `Logisim-2.7.1-macos-x64` | Intel | 11 or newer | No |
-| `Logisim-2.7.1-macos-arm64` | Apple Silicon (M1 or newer) | 11 or newer | No |
-
-The system-Java package is the compatibility build. Java 17 is recommended on
-modern Macs; Java 8 is useful on older Intel systems. Java 6 and 7 can run this
-old Logisim bytecode on legacy systems, but those Java versions are obsolete
-and unsupported.
-
-The standalone packages contain their own Java runtime. They are larger, but do
-not depend on Homebrew or a system-wide Java installation.
-
-The `bundled-jre` ZIPs can be assembled on any operating system from pinned and
-checksummed OpenJDK runtimes. The Intel build uses Azul Zulu Java 8 for Catalina
-compatibility; the Apple-Silicon build uses Eclipse Temurin Java 17:
+Download and verify the official Windows packages with:
 
 ```sh
-python scripts/build-embedded-runtime.py --arch all
+python scripts/download-windows-packages.py
 ```
 
-## Install
+## Project status and attribution
 
-1. Download the package matching the table above.
-2. Open the DMG or unpack the ZIP, then drag `Logisim.app` to `Applications`.
-3. The builds are not Apple-notarized. On first launch, Control-click the app,
-   choose **Open**, then confirm **Open**. On newer macOS releases, use
-   **System Settings → Privacy & Security → Open Anyway** if that button is not
-   offered in Finder.
+This is an independent packaging project, not the official Logisim-evolution
+website. The simulator is maintained by the
+[Logisim-evolution developers](https://github.com/logisim-evolution/logisim-evolution)
+and distributed under GPL-3.0.
 
-For the system-Java package, install a compatible JDK/JRE first. On modern
-Intel and Apple-Silicon Macs, an Eclipse Temurin 17 build is available from
-<https://adoptium.net/temurin/releases/>.
+Packaging and this repository are maintained by
+[@Mastn1kth](https://github.com/Mastn1kth). Thanks to Carl Burch for the original
+Logisim and to every Logisim-evolution contributor who continues to improve it.
 
-## Build locally on a Mac
-
-Create the widest-compatibility package:
-
-```sh
-./scripts/build-system-java-app.sh
-```
-
-Create a standalone package for the current Mac architecture (requires JDK 17
-with `jpackage`):
-
-```sh
-./scripts/build-bundled-app.sh
-```
-
-Both scripts write artifacts to `dist/`. GitHub Actions builds the Intel,
-Apple-Silicon, and system-Java artifacts automatically.
-
-The system-Java ZIP can also be created on Windows or Linux without changing
-its macOS executable permissions:
-
-```sh
-python scripts/build-portable.py
-```
-
-## Compatibility notes
-
-- Apple Silicon first shipped with macOS 11, so there is no arm64 package for
-  macOS 10.x.
-- The `10.8+` package is architecture-neutral, but it needs a Java runtime that
-  supports the installed macOS and CPU.
-- Current standalone packages require macOS 11 or newer on both architectures.
-  Catalina and older can use the system-Java compatibility package. Bundling an
-  old, unpatched Java runtime just to lower this limit is intentionally avoided.
-- CI smoke-tests each generated application on its build runner. Claims about
-  older macOS releases still need testing on real legacy hardware or VMs.
-- The original repository used an Intel-only Automator stub and the `screen`
-  utility. This package uses a small POSIX launcher instead, avoiding Rosetta
-  and unnecessary Automator privacy prompts.
-
-## Credits
-
-Logisim was developed by Carl Burch. This repository only supplies macOS
-packaging. Original project: <http://www.cburch.com/logisim/>.
+If a package fails, please
+**[open an issue](https://github.com/Mastn1kth/logisim-macos/issues/new)** and
+include the computer model, operating-system version, and exact error message.
