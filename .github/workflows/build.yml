@@ -95,6 +95,10 @@ jobs:
           version_output=$(dist/modern-smoke-test/Logisim.app/Contents/MacOS/Logisim -version 2>&1)
           echo "$version_output"
           grep -q "5.0.0" <<< "$version_output"
+      - name: Open a legacy Logisim 2.7.1 circuit
+        run: |
+          dist/modern-smoke-test/Logisim.app/Contents/MacOS/Logisim \
+            --tty table "$GITHUB_WORKSPACE/tests/fixtures/legacy-logisim-2.7.1.circ"
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
