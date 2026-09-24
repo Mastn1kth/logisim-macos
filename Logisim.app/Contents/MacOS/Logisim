@@ -37,4 +37,4 @@ exec "$JAVA_CMD" \
     -Dcom.apple.mrj.application.apple.menu.about.name=Logisim \
     -Xdock:name=Logisim \
     "-Xdock:icon=$ICON_PATH" \
-    -jar "$JAR_PATH" "$@"
+    -jar "$JAR_PATH" --no-splash "$@"

@@ -130,7 +130,7 @@ exec "$JAVA" \\
     -Dcom.apple.mrj.application.apple.menu.about.name=Logisim \\
     -Xdock:name=Logisim \\
     "-Xdock:icon=$ICON" \\
-    -jar "$JAR" "$@"
+    -jar "$JAR" --no-splash "$@"
 '''.encode("utf-8")
 
 

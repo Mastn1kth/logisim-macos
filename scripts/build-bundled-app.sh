@@ -50,6 +50,7 @@ jpackage \
     --mac-package-identifier com.cburch.logisim \
     --file-associations "$ROOT_DIR/packaging/logisim.properties" \
     --add-modules java.base,java.desktop,java.logging,java.prefs \
+    --arguments "--no-splash" \
     --java-options -Dapple.laf.useScreenMenuBar=true \
     --java-options -Dcom.apple.mrj.application.apple.menu.about.name=Logisim
 
